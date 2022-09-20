@@ -16,9 +16,19 @@ RSpec.describe "/users", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { create(:user) }
+  let(:valid_attributes) { 
+    {
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: '123123123'
+    }
+  }
 
-  let(:invalid_attributes) { create(:user, :without_email) }
+  let(:invalid_attributes) {
+    {
+      name: Faker::Name.name
+    }
+  }
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
