@@ -26,7 +26,8 @@ RSpec.describe "/users", type: :request do
 
   let(:invalid_attributes) {
     {
-      name: Faker::Name.name
+      name: Faker::Name.name,
+      email: '123123'
     }
   }
 
@@ -37,6 +38,10 @@ RSpec.describe "/users", type: :request do
   let(:valid_headers) {
     {}
   }
+
+  before do
+    sign_in create(:user)
+  end
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -90,12 +95,10 @@ RSpec.describe "/users", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) { create(:user) }
-
       it "updates the requested user" do
         user = User.create! valid_attributes
         patch user_url(user),
-              params: { user: new_attributes }, headers: valid_headers, as: :json
+              params: { user: valid_attributes }, headers: valid_headers, as: :json
         user.reload
         skip("Add assertions for updated state")
       end
@@ -103,7 +106,7 @@ RSpec.describe "/users", type: :request do
       it "renders a JSON response with the user" do
         user = User.create! valid_attributes
         patch user_url(user),
-              params: { user: new_attributes }, headers: valid_headers, as: :json
+              params: { user: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
