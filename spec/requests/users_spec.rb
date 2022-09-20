@@ -95,12 +95,14 @@ RSpec.describe "/users", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:new_attributes) { { name: 'New User Name' } }
+
       it "updates the requested user" do
         user = User.create! valid_attributes
         patch user_url(user),
-              params: { user: valid_attributes }, headers: valid_headers, as: :json
+              params: { user: new_attributes }, headers: valid_headers, as: :json
         user.reload
-        skip("Add assertions for updated state")
+        expect(user.name).to eq('New User Name')
       end
 
       it "renders a JSON response with the user" do
