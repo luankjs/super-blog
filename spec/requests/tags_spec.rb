@@ -16,13 +16,9 @@ RSpec.describe "/tags", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Tag. As you add validations to Tag, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) { { name: 'New Tag' } }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) { { name: '' } }
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
@@ -84,16 +80,14 @@ RSpec.describe "/tags", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { { name: 'New Tag Name' } }
 
       it "updates the requested tag" do
         tag = Tag.create! valid_attributes
         patch tag_url(tag),
               params: { tag: new_attributes }, headers: valid_headers, as: :json
         tag.reload
-        skip("Add assertions for updated state")
+        expect(tag.name).to eq('New Tag Name')
       end
 
       it "renders a JSON response with the tag" do
