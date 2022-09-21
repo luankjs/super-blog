@@ -7,15 +7,29 @@ paths:
   "/tags":
     get:
       summary: list tags
+      tags:
+      - Admin
       responses:
         '200':
           description: successful
     post:
       summary: create tag
+      tags:
+      - Admin
       parameters: []
       responses:
         '201':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
   "/tags/{id}":
     parameters:
     - name: id
@@ -26,23 +40,51 @@ paths:
         type: string
     get:
       summary: show tag
+      tags:
+      - Admin
       responses:
         '200':
           description: successful
     patch:
       summary: update tag
+      tags:
+      - Admin
       parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
     put:
       summary: update tag
+      tags:
+      - Admin
       parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
     delete:
       summary: delete tag
+      tags:
+      - Admin
       responses:
         '204':
           description: successful
@@ -51,3 +93,9 @@ servers:
   variables:
     defaultHost:
       default: 127.0.0.1:3000
+securitySchemes:
+  Bearer:
+    description: ''
+    type: apiKey
+    name: Authorization
+    in: header

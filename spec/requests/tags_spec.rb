@@ -2,9 +2,15 @@ require 'swagger_helper'
 
 RSpec.describe 'tags', type: :request do
 
+  let(:user) { create(:user) } 
+
   path '/tags' do
+    before(:each) do
+      sign_in user
+    end
 
     get('list tags') do
+      tags 'Admin'
       produces 'application/json'
 
       response(200, 'successful') do
@@ -28,9 +34,16 @@ RSpec.describe 'tags', type: :request do
     end
 
     post('create tag') do
+      tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :body, in: :body, required: true
+      parameter name: :tag, in: :body, schema: {
+        type: :object,
+        properties: {
+            name: { type: :string },
+        },
+        required: [ 'name' ]
+      }
 
       response(201, 'successful') do
         after do |example|
@@ -41,9 +54,7 @@ RSpec.describe 'tags', type: :request do
           }
         end
 
-        let(:body) do
-          { tag: attributes_for(:tag) }
-        end
+        let(:tag) { attributes_for(:tag) }
 
         run_test!
       end
@@ -51,9 +62,14 @@ RSpec.describe 'tags', type: :request do
   end
 
   path '/tags/{id}' do
+    before(:each) do
+      sign_in user
+    end
+
     parameter name: :id, in: :path, type: :string, description: 'id'
 
     get('show tag') do
+      tags 'Admin'
       produces 'application/json'
 
       response(200, 'successful') do
@@ -72,16 +88,20 @@ RSpec.describe 'tags', type: :request do
     end
 
     patch('update tag') do
+      tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :body, in: :body, required: true
+      parameter name: :tag, in: :body, schema: {
+          type: :object,
+          properties: {
+              name: { type: :string },
+          },
+          required: [ 'name' ]
+      }
 
       response(200, 'successful') do
-        let(:tag) { create(:tag) }
-        let(:id) { tag.id }
-        let(:body) do
-          { tag: attributes_for(:tag) }
-        end
+        let(:tag) { attributes_for(:tag) }
+        let(:id) { create(:tag).id }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -95,16 +115,20 @@ RSpec.describe 'tags', type: :request do
     end
 
     put('update tag') do
+      tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :body, in: :body, required: true
+      parameter name: :tag, in: :body, schema: {
+          type: :object,
+          properties: {
+              name: { type: :string },
+          },
+          required: [ 'name' ]
+      }
 
       response(200, 'successful') do
-        let(:tag) { create(:tag) }
-        let(:id) { tag.id }
-        let(:body) do
-          { tag: attributes_for(:tag) }
-        end
+        let(:id) { create(:tag).id }
+        let(:tag) { attributes_for(:tag) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -118,6 +142,7 @@ RSpec.describe 'tags', type: :request do
     end
 
     delete('delete tag') do
+      tags 'Admin'
       let(:tag) { create(:tag) }
 
       response(204, 'successful') do
