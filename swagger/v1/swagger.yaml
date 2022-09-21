@@ -4,6 +4,121 @@ info:
   title: API V1
   version: v1
 paths:
+  "/posts/{post_id}/comments":
+    parameters:
+    - name: post_id
+      in: path
+      description: post_id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list comments
+      tags:
+      - Public
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create comment
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                author_name:
+                  type: string
+                author_email:
+                  type: string
+              required:
+              - text
+              - author_name
+              - author_email
+  "/posts/{post_id}/comments/{id}":
+    parameters:
+    - name: post_id
+      in: path
+      description: post_id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show comment
+      tags:
+      - Public
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update comment
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                author_name:
+                  type: string
+                author_email:
+                  type: string
+              required:
+              - text
+              - author_name
+              - author_email
+    put:
+      summary: update comment
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                author_name:
+                  type: string
+                author_email:
+                  type: string
+              required:
+              - text
+              - author_name
+              - author_email
+    delete:
+      summary: delete comment
+      tags:
+      - Admin
+      responses:
+        '204':
+          description: successful
   "/posts":
     get:
       summary: list posts
