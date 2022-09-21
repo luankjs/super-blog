@@ -3,20 +3,20 @@ require 'swagger_helper'
 RSpec.describe 'comments', type: :request do
 
   let(:user) { create(:user) }
-  let(:post) { create(:post) }
+  let(:article) { create(:article) }
 
-  path '/posts/{post_id}/comments' do
-    parameter name: :post_id, in: :path, type: :string, description: 'post_id'
+  path '/articles/{article_id}/comments' do
+    parameter name: :article_id, in: :path, type: :string, description: 'article_id'
 
     get('list comments') do
       tags 'Public'
       produces 'application/json'
 
       response(200, 'successful') do
-        let(:post_id) { post.id }
+        let(:article_id) { article.id }
 
         before do
-          create_list(:comment, 3, post_id: post.id)
+          create_list(:comment, 3, article_id: article.id)
         end
 
         after do |example|
@@ -48,8 +48,8 @@ RSpec.describe 'comments', type: :request do
       }
 
       response(201, 'successful') do
-        let(:post_id) { post.id }
-        let(:comment) { attributes_for(:comment, post_id: post_id) }
+        let(:article_id) { article.id }
+        let(:comment) { attributes_for(:comment, article_id: article_id) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -64,8 +64,8 @@ RSpec.describe 'comments', type: :request do
     end
   end
 
-  path '/posts/{post_id}/comments/{id}' do
-    parameter name: :post_id, in: :path, type: :string, description: 'post_id'
+  path '/articles/{article_id}/comments/{id}' do
+    parameter name: :article_id, in: :path, type: :string, description: 'article_id'
     parameter name: :id, in: :path, type: :string, description: 'id'
 
     get('show comment') do
@@ -73,8 +73,8 @@ RSpec.describe 'comments', type: :request do
       produces 'application/json'
 
       response(200, 'successful') do
-        let(:post_id) { post.id }
-        let(:comment) { create(:comment, post_id: post_id) }
+        let(:article_id) { article.id }
+        let(:comment) { create(:comment, article_id: article_id) }
         let(:id) { comment.id }
 
         after do |example|
@@ -107,8 +107,8 @@ RSpec.describe 'comments', type: :request do
       end
 
       response(200, 'successful') do
-        let(:post_id) { post.id }
-        let(:comment) { create(:comment, post_id: post_id) }
+        let(:article_id) { article.id }
+        let(:comment) { create(:comment, article_id: article_id) }
         let(:id) { comment.id }
 
         after do |example|
@@ -141,9 +141,9 @@ RSpec.describe 'comments', type: :request do
       end
 
       response(200, 'successful') do
-        let(:post_id) { post.id }
-        let(:id) { create(:comment, post_id: post.id).id }
-        let(:comment) { attributes_for(:comment, post_id: post.id) }
+        let(:article_id) { article.id }
+        let(:id) { create(:comment, article_id: article.id).id }
+        let(:comment) { attributes_for(:comment, article_id: article.id) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -160,8 +160,8 @@ RSpec.describe 'comments', type: :request do
       tags 'Admin'
 
       response(204, 'successful') do
-        let(:post_id) { post.id }
-        let(:comment) { create(:comment, post_id: post_id) }
+        let(:article_id) { article.id }
+        let(:comment) { create(:comment, article_id: article_id) }
         let(:id) { comment.id }
 
         before do

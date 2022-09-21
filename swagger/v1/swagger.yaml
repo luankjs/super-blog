@@ -4,6 +4,99 @@ info:
   title: API V1
   version: v1
 paths:
+  "/articles":
+    get:
+      summary: list articles
+      tags:
+      - Public
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create article
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                category_id:
+                  type: number
+                tag_ids:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - title
+              - body
+  "/articles/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show article
+      tags:
+      - Public
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update article
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+    put:
+      summary: update article
+      tags:
+      - Admin
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+    delete:
+      summary: delete article
+      tags:
+      - Admin
+      responses:
+        '204':
+          description: successful
   "/categories":
     get:
       summary: list categories
@@ -88,11 +181,11 @@ paths:
       responses:
         '204':
           description: successful
-  "/posts/{post_id}/comments":
+  "/articles/{article_id}/comments":
     parameters:
-    - name: post_id
+    - name: article_id
       in: path
-      description: post_id
+      description: article_id
       required: true
       schema:
         type: string
@@ -127,11 +220,11 @@ paths:
               - text
               - author_name
               - author_email
-  "/posts/{post_id}/comments/{id}":
+  "/articles/{article_id}/comments/{id}":
     parameters:
-    - name: post_id
+    - name: article_id
       in: path
-      description: post_id
+      description: article_id
       required: true
       schema:
         type: string
@@ -198,99 +291,6 @@ paths:
               - author_email
     delete:
       summary: delete comment
-      tags:
-      - Admin
-      responses:
-        '204':
-          description: successful
-  "/posts":
-    get:
-      summary: list posts
-      tags:
-      - Public
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create post
-      tags:
-      - Admin
-      parameters: []
-      responses:
-        '201':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
-                category_id:
-                  type: number
-                tag_ids:
-                  type: array
-                  items:
-                    type: string
-              required:
-              - title
-              - body
-  "/posts/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id
-      required: true
-      schema:
-        type: string
-    get:
-      summary: show post
-      tags:
-      - Public
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update post
-      tags:
-      - Admin
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              required:
-              - name
-    put:
-      summary: update post
-      tags:
-      - Admin
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              required:
-              - name
-    delete:
-      summary: delete post
       tags:
       - Admin
       responses:

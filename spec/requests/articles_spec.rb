@@ -1,17 +1,18 @@
 require 'swagger_helper'
 
-RSpec.describe 'posts', type: :request do
+RSpec.describe 'articles', type: :request do
 
   let(:user) { create(:user) } 
+  let(:category) { create(:category) }
 
-  path '/posts' do
-    get('list posts') do
+  path '/articles' do
+    get('list articles') do
       tags 'Public'
       produces 'application/json'
 
       response(200, 'successful') do
         before do
-          create_list(:post, 10)
+          create_list(:article, 10)
         end
 
         after do |example|
@@ -29,11 +30,11 @@ RSpec.describe 'posts', type: :request do
       end
     end
 
-    post('create post') do
+    post('create article') do
       tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :post, in: :body, schema: {
+      parameter name: :article, in: :body, schema: {
         type: :object,
         properties: {
           title: { type: :string },
@@ -60,23 +61,23 @@ RSpec.describe 'posts', type: :request do
           }
         end
 
-        let(:post) { attributes_for(:post) }
+        let(:article) { attributes_for(:article, category_id: category.id) }
 
         run_test!
       end
     end
   end
 
-  path '/posts/{id}' do
+  path '/articles/{id}' do
     parameter name: :id, in: :path, type: :string, description: 'id'
 
-    get('show post') do
+    get('show article') do
       tags 'Public'
       produces 'application/json'
 
       response(200, 'successful') do
-        let(:post) { create(:post) }
-        let(:id) { post.id }
+        let(:article) { create(:article) }
+        let(:id) { article.id }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -89,11 +90,11 @@ RSpec.describe 'posts', type: :request do
       end
     end
 
-    patch('update post') do
+    patch('update article') do
       tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :post, in: :body, schema: {
+      parameter name: :article, in: :body, schema: {
           type: :object,
           properties: {
               name: { type: :string },
@@ -106,8 +107,8 @@ RSpec.describe 'posts', type: :request do
       end
 
       response(200, 'successful') do
-        let(:post) { attributes_for(:post) }
-        let(:id) { create(:post).id }
+        let(:article) { attributes_for(:article, category_id: category.id) }
+        let(:id) { create(:article).id }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -120,11 +121,11 @@ RSpec.describe 'posts', type: :request do
       end
     end
 
-    put('update post') do
+    put('update article') do
       tags 'Admin'
       consumes 'application/json'
 
-      parameter name: :post, in: :body, schema: {
+      parameter name: :article, in: :body, schema: {
           type: :object,
           properties: {
               name: { type: :string },
@@ -137,8 +138,8 @@ RSpec.describe 'posts', type: :request do
       end
 
       response(200, 'successful') do
-        let(:id) { create(:post).id }
-        let(:post) { attributes_for(:post) }
+        let(:id) { create(:article).id }
+        let(:article) { attributes_for(:article, category_id: category.id) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -151,16 +152,16 @@ RSpec.describe 'posts', type: :request do
       end
     end
 
-    delete('delete post') do
+    delete('delete article') do
       tags 'Admin'
-      let(:post) { create(:post) }
+      let(:article) { create(:article) }
 
       before do
         sign_in user
       end
 
       response(204, 'successful') do
-        let(:id) { post.id }
+        let(:id) { article.id }
 
         run_test!
       end
