@@ -5,12 +5,8 @@ RSpec.describe 'tags', type: :request do
   let(:user) { create(:user) } 
 
   path '/tags' do
-    before(:each) do
-      sign_in user
-    end
-
     get('list tags') do
-      tags 'Admin'
+      tags 'Public'
       produces 'application/json'
 
       response(200, 'successful') do
@@ -44,6 +40,10 @@ RSpec.describe 'tags', type: :request do
         },
         required: [ 'name' ]
       }
+
+      before do
+        sign_in user
+      end
 
       response(201, 'successful') do
         after do |example|
