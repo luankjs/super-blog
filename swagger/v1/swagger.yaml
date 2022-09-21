@@ -3,9 +3,51 @@ openapi: 3.0.1
 info:
   title: API V1
   version: v1
-paths: {}
+paths:
+  "/tags":
+    get:
+      summary: list tags
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create tag
+      parameters: []
+      responses:
+        '201':
+          description: successful
+  "/tags/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show tag
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update tag
+      parameters: []
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update tag
+      parameters: []
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete tag
+      responses:
+        '204':
+          description: successful
 servers:
 - url: https://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: 127.0.0.1:3000
