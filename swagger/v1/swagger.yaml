@@ -231,6 +231,10 @@ paths:
                   type: string
                 category_id:
                   type: number
+                tag_ids:
+                  type: array
+                  items:
+                    type: string
               required:
               - title
               - body

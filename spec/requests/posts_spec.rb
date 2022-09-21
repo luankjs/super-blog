@@ -36,9 +36,13 @@ RSpec.describe 'posts', type: :request do
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
-            title: { type: :string },
-            body: { type: :string },
-            category_id: { type: :number },
+          title: { type: :string },
+          body: { type: :string },
+          category_id: { type: :number },
+          tag_ids: { 
+            type: :array, 
+            items: { type: :string } 
+          }
         },
         required: [ 'title', 'body' ]
       }
