@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      render json: @article, status: :created, location: @article
+      render json: @article, status: :created
     else
       render json: @article.errors, status: :unprocessable_entity
     end
