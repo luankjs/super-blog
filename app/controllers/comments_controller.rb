@@ -28,7 +28,6 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /articles/1/comments/1
   def update
-    # byebug
     if @comment.update(comment_params)
       render json: @comment
     else
